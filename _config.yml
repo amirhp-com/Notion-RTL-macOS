@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
-show_downloads: false
+show_downloads: true
 latest_release_url: https://github.com/amirhp-com/Notion-RTL-macOS/releases/latest/download/NotionRTL-v2.zip
 github:
   zip_url: https://github.com/amirhp-com/Notion-RTL-macOS/releases/latest/download/NotionRTL-v2.zip
