@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>528</string>
+	<key>AMApplicationVersion</key>
+	<string>2.10</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}	-- Launch or bring Notion to front	if application "Notion" is running then		tell application "Notion" to activate	else		do shell script "open -a 'Notion' --args --enable-features=DeveloperTools"		delay 2	end if		-- Wait up to 15s for Notion to appear in process list	set maxWait to 15	set counter to 0	tell application "System Events"		repeat until (name of processes) contains "Notion"			delay 0.2			set counter to counter + 0.2			if counter &gt; maxWait then				display dialog "❌ Notion failed to launch within 15 seconds. Open manaully and try again." buttons {"OK"} default button "OK"				return input			end if		end repeat	end tell		delay 1		-- Force Notion to front	tell application "System Events"		if (name of processes) contains "Notion" then			try				set frontmost of process "Notion" to true				tell process "Notion"					set winList to windows					if (count of winList) &gt; 0 then						set mainWindow to item 1 of winList						perform action "AXRaise" of mainWindow					end if				end tell			end try		end if	end tell		-- Wait until Notion is truly frontmost (max 15s)	set counter to 0	repeat until application "Notion" is frontmost		delay 0.2		set counter to counter + 0.2		if counter &gt; maxWait then			display dialog "❌ Notion failed to come to front. Open manaully and try again." buttons {"OK"} default button "OK"			return input		end if	end repeat		delay 1		-- Toggle fullscreen	tell application "System Events"		tell process "Notion"			set frontmost to true			keystroke "f" using {control down, command down}		end tell	end tell		delay 1		-- Inject RTL CSS via DevTools	tell application "System Events"		tell process "Notion"			set frontmost to true						-- Open DevTools			keystroke "i" using {option down, command down}			delay 1						-- Inject CSS			set jsCode to "const style = document.createElement(\"style\"); style.innerHTML = `.layout-content {font-family: \\\"IRANYekanXVF\\\";} .notion-page-content .notion-text-block [contenteditable] {direction: rtl;}`; document.head.appendChild(style);"			keystroke jsCode			keystroke return						-- Close DevTools			delay 1			keystroke "i" using {option down, command down}		end tell	end tell		delay 0.5		-- Show success message	display dialog "WOW! Your Notion is now beautiful😍 [dev: @amirhp_com]" buttons {"OK"} default button "OK"		return inputend run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>IgnoresInput</key>
+				<true/>
+				<key>InputUUID</key>
+				<string>A8530109-B3DB-4BF6-97C4-9D8CFB3DF80F</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>3C4B67FF-CE72-4B6E-8095-3348AA227FB5</string>
+				<key>UUID</key>
+				<string>D6CD1DFE-012B-45E2-BE61-50BA9CB1978F</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>553.500000:711.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict/>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.application</string>
+	</dict>
+</dict>
+</plist>
